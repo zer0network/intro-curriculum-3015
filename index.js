@@ -26,14 +26,13 @@ const server = http.createServer((req, res) => {
       res.end();
       break;
     case 'POST':
-      let body = [];
+      let rawData = '';
       req.on('data', (chunk) => {
-        body.push(chunk);
+        rawData = rawData + chunk;
       }).on('end', () => {
-        body = Buffer.concat(body).toString();
-        const decoded = decodeURIComponent(body);
+        const decoded = decodeURIComponent(rawData);
         console.info('[' + now + '] 投稿: ' + decoded);
-        res.write('<!DOCTYPE html><html lang="jp"><head><meta charset="utf-8"></head><body><h1>' +
+        res.write('<!DOCTYPE html><html lang="ja"><body><h1>' +
           decoded + 'が投稿されました</h1></body></html>');
         res.end();
       });
@@ -41,7 +40,6 @@ const server = http.createServer((req, res) => {
     default:
       break;
   }
-
 }).on('error', (e) => {
   console.error('[' + new Date() + '] Server Error', e);
 }).on('clientError', (e) => {
