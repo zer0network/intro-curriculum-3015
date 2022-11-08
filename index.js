@@ -27,6 +27,14 @@ const server = http
         res.end();
         break;
       case 'POST':
+         } else if (req.url === '/enquetes/sushi-pizza') {
+    res.write(
+      pug.renderFile('./form.pug', {
+        path: req.url,
+        firstItem: '寿司',
+        secondItem: 'ピザ'
+      })
+    );
         let rawData = '';
         req
           .on('data', chunk => {
